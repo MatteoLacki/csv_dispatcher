@@ -2,7 +2,8 @@ import argparse
 import pandas as pd
 import importlib
 
-from csv_dispatcher.csv_dispatcher import df_map
+from csv_dispatcher.parser import df2kwds_iter2
+import multiprocessing as mp
 
 DEBUG = True
 
@@ -16,14 +17,14 @@ AA("input_csv", help="Path to the csv file with inputs. Column 'group' should co
 AA("--module",
     default="builtins",
     help="Name of the module to import the function from.")
-AA("--list_columns",
-    default=[""],
-    nargs="*",
-    help="Name(s) of column(s) that should be run as list arguments of'foo'.")
 AA("--grouping_columns",
-    default=["group"],
+    default=[],
     nargs="*",
     help="Name(s) of column(s) storing groups.")
+AA("--no_scalars",
+    action='store_false',
+    dest='as_scalar',
+    help='Treat all arguments as lists.')
 AA("--cores",
     help="Number of calls to schedule.", 
     type=int, 
@@ -31,7 +32,14 @@ AA("--cores",
 
 args = P.parse_args()
 inputs_df = pd.read_csv(args.input_csv)
+foo_kwds_iter = df2kwds_iter2(inputs_df, args.grouping_columns, args.as_scalar)
+
 module = importlib.import_module(args.module)
 foo = getattr(module, args.foo)
-df_map(foo, inputs_df, args.grouping_columns, args.list_columns)
 
+def foo_wrapped(group_kwds):
+    group, kwds = group_kwds
+    return foo(**kwds)
+
+with mp.Pool(args.cores) as pool:
+    pool.map(foo_wrapped, foo_kwds_iter)

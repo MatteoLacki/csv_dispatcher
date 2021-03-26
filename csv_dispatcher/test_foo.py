@@ -8,3 +8,7 @@ def foo(x,y,z):
 
 def print_foo(x,y,z):
     return print(foo(x,y,z))
+
+def foo2(number, string):
+    print(number + number)
+    print(string)
