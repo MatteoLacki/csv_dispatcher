@@ -2,6 +2,8 @@ import argparse
 import pandas as pd
 import importlib
 
+from csv_dispatcher.csv_dispatcher import df_map
+
 DEBUG = True
 
 P = argparse.ArgumentParser(description='Run a python function with csv input.',
@@ -28,27 +30,8 @@ AA("--cores",
     default=1)
 
 args = P.parse_args()
-
-inputs_csv = pd.read_csv(args.input_csv)
-if DEBUG:
-    from pprint import pprint
-    print(inputs_csv)
-    print(args.__dict__)
-
+inputs_df = pd.read_csv(args.input_csv)
 module = importlib.import_module(args.module)
 foo = getattr(module, args.foo)
-if DEBUG:
-    print(module)
-    print(foo)
+df_map(foo, inputs_df, args.grouping_columns, args.list_columns)
 
-all_columns = set(inputs_csv.columns)
-columns_to_be_dropped = all_columns - set(args.list_columns) - set(args.grouping_columns)
-
-for group, group_data in inputs_csv.groupby(args.grouping_columns):
-    non_list_args = group_data[columns_to_be_dropped].drop_duplicates()
-    assert len(non_list_args) == 1, "Some values repeat multiple times within a group but ain't a list argument to 'foo': fix the input!."
-    kwds = {**non_list_args.to_dict(orient="records")[0],
-            **{name:list(col) for name, col in group_data[args.list_columns].to_dict(orient="series").items()}}
-    res = foo(**kwds)
-    if DEBUG:
-        print(res)

@@ -5,3 +5,6 @@ def foo(x,y,z):
     y = np.array(y)
     z = np.array(z)
     return (x+y) * z
+
+def print_foo(x,y,z):
+    return print(foo(x,y,z))
