@@ -7,9 +7,10 @@ import functools
 from csv_dispatcher.parser import df2kwds_iter, df2kwds_iter2
 
 
-list_columns = ["object"]
-grouping_columns = ["group"]
-dataframe = pd.read_csv("test/pprint_test.csv")
+list_columns = ["experiments", 'fastas']
+grouping_columns = ["Group"]
+dataframe = pd.read_csv("test/diann_test.csv", sep=';')
+dataframe=dataframe.dropna(axis=1)
 list(df2kwds_iter(dataframe, list_columns, grouping_columns))
 list(df2kwds_iter(dataframe))
 

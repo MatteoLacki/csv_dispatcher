@@ -29,9 +29,13 @@ AA("--cores",
     help="Number of calls to schedule.", 
     type=int, 
     default=1)
+AA("--dry_run",
+    action='store_true',
+    help='Output only keywords.')
 
 args = P.parse_args()
-inputs_df = pd.read_csv(args.input_csv)
+
+inputs_df = pd.read_csv(args.input_csv, engine="python", sep=None).dropna(axis=1, how='all')
 foo_kwds_iter = df2kwds_iter2(inputs_df, args.grouping_columns, args.as_scalar)
 
 module = importlib.import_module(args.module)
@@ -41,5 +45,12 @@ def foo_wrapped(group_kwds):
     group, kwds = group_kwds
     return foo(**kwds)
 
-with mp.Pool(args.cores) as pool:
-    pool.map(foo_wrapped, foo_kwds_iter)
+if args.cores == 1:
+    for group, kwds in foo_kwds_iter:
+        if args.dry_run:
+            print(kwds)
+        else:
+            print(foo(**kwds))
+else:
+    with mp.Pool(args.cores) as pool:
+        pool.starmap(foo_wrapped, foo_kwds_iter)
