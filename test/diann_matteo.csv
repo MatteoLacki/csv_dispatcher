@@ -1,0 +1,5 @@
+Group;experiments;fastas;output_dir;generate_sp_lib;exe_path;fdr;cut;miss_cleavages;min_pep_len;max_pep_len;min_pr_mz;max_pr_mz;min_fr_mz;max_fr_mz;mass_acc;ms1_acc;mass_acc_cal;protein_group;quantification;normalisation;threads;pdf_path
+A;C:/Users/danah/Desktop/testdata/V201105_29.raw;C:/Users/danah/Desktop/hye.fasta;C:/Users/danah/Desktop/testresults/A;yes;C:/DIA-NN/1.7.16/DiaNN.exe;0.01;Trypsin;1;200;800;1100;1800;;;;;;genes;;;12;C:/DIA-NN/1.7.16/dia-nn-plotter.exe
+A;C:/Users/danah/Desktop/testdata/V201105_30.raw;;;;;;;;;;;;;;;;;;;;;
+B;C:/Users/danah/Desktop/testdata/V201105_31.raw;C:/Users/danah/Desktop/hye.fasta;C:/Users/danah/Desktop/testresults/B;;C:/DIA-NN/1.7.16/DiaNN.exe;0.01;Trypsin;1;200;800;1100;1800;;;;;;genes(species-specific);;;12;C:/DIA-NN/1.7.16/dia-nn-plotter.exe
+B;C:/Users/danah/Desktop/testdata/V201105_32.raw;;;;;;;;;;;;;;;;;;;;;

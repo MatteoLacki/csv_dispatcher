@@ -1,0 +1,6 @@
+Group;experiments;fastas;output_dir;spectral_lib;exe_path;fdr;cut;miss_cleavages;min_pep_len;max_pep_len;min_pr_mz;max_pr_mz;min_fr_mz;max_fr_mz;mass_acc;ms1_acc;mass_acc_cal;protein_group;quantification;normalisation;threads
+A;1;hye.fasta;/output/out;;diann.exe;0.01;Trypsin;1;200;800;1100;1800;;;;;;genes;;;16
+A;2;;;;;;;;;;;;;;;;;;;;
+A;4;;;;;;;;;;;;;;;;;;;;
+B;3;hye.fasta;/output/out2;/output/sl;diann.exe;0.01;Trypsin;1;200;800;1100;1800;;;;;;genes(species-specific);;;16
+B;5;;;;;;;;;;;;;;;;;;;;
