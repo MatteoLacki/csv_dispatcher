@@ -3,7 +3,7 @@ make:
 upload_test_pypi:
 	rm -rf dist || True
 	python setup.py sdist
-	twine -r testpypi dist/* 
+	twine upload --repository testpypi dist/*
 upload_pypi:
 	rm -rf dist || True
 	python setup.py sdist

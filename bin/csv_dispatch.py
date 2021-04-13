@@ -2,6 +2,8 @@ import argparse
 import pandas as pd
 import importlib
 
+from pprint import pprint
+
 from csv_dispatcher.parser import df2kwds_iter2
 import multiprocessing as mp
 
@@ -29,9 +31,19 @@ AA("--cores",
     help="Number of calls to schedule.", 
     type=int, 
     default=1)
+AA("--verbose",
+    help="Be verbose.", 
+    action='store_true')
+AA("--dry",
+    help="Only show parsed arguments.", 
+    action='store_true')
 
 args = P.parse_args()
 inputs_df = pd.read_csv(args.input_csv)
+if args.verbose:
+    print(f"Calling 'csv_dispatch' on {args.foo}")
+    print(inputs_df)
+
 foo_kwds_iter = df2kwds_iter2(inputs_df, args.grouping_columns, args.as_scalar)
 
 module = importlib.import_module(args.module)
@@ -41,5 +53,10 @@ def foo_wrapped(group_kwds):
     group, kwds = group_kwds
     return foo(**kwds)
 
-with mp.Pool(args.cores) as pool:
-    pool.map(foo_wrapped, foo_kwds_iter)
+if args.dry:
+    print(f"The arguments for function '{foo}' are:")
+    for x in foo_kwds_iter:
+        pprint(x)
+else:
+    with mp.Pool(args.cores) as pool:
+        pool.map(foo_wrapped, foo_kwds_iter)
