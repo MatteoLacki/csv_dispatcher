@@ -11,7 +11,6 @@ DEBUG = True
 
 P = argparse.ArgumentParser(description='Run a python function with csv input.',
                             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-
 AA = P.add_argument
 
 AA("foo", help="Name of the function to run.")
