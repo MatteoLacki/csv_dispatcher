@@ -39,7 +39,8 @@ AA("--dry",
     action='store_true')
 
 args = P.parse_args()
-inputs_df = pd.read_csv(args.input_csv)
+
+inputs_df = pd.read_csv(args.input_csv, engine="python", sep=None).dropna(axis=1, how='all')
 if args.verbose:
     print(f"Calling 'csv_dispatch' on {args.foo}")
     print(inputs_df)
@@ -49,14 +50,18 @@ foo_kwds_iter = df2kwds_iter2(inputs_df, args.grouping_columns, args.as_scalar)
 module = importlib.import_module(args.module)
 foo = getattr(module, args.foo)
 
-def foo_wrapped(group_kwds):
-    group, kwds = group_kwds
-    return foo(**kwds)
-
 if args.dry:
     print(f"The arguments for function '{foo}' are:")
     for x in foo_kwds_iter:
         pprint(x)
 else:
-    with mp.Pool(args.cores) as pool:
-        pool.map(foo_wrapped, foo_kwds_iter)
+    if args.cores == 1:
+        for group, kwds in foo_kwds_iter:
+            foo(**kwds)
+    else:
+        def foo_wrapped(group_kwds):
+            group, kwds = group_kwds
+            return foo(**kwds)
+        with mp.Pool(args.cores) as pool:
+            pool.map(foo_wrapped, foo_kwds_iter)
+        

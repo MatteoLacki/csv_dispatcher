@@ -1,0 +1,7 @@
+Group;Experiment;Fasta;Output directory;Spectral library;Exe Path;FDR;Cut;Missed cleavages;Peptide length min;Peptide length max;Precursor m/t min;Precursor m/z max;Fragment ion m/z min;Fragment ion max;Mass accuracy;MS1 accuracy;mass accuracy cal;Protein Group;Quantification;Normalisation;Library generation;NN Classifier;Match between runs;individual runs;Threads
+A;1;hye.fasta;/output/out;;diann.exe;0.01;Trypsin;1;200;800;1100;1800;;;;;;;;genes;full;;yes;;
+A;2;hye.fasta;/output/out;;diann.exe;0.01;Trypsin;1;200;800;1100;1800;;;;;;;;genes;full;;yes;;
+A;4;hye.fasta;/output/out;;diann.exe;0.01;Trypsin;1;200;800;1100;1800;;;;;;;;genes;full;;yes;;
+B;3;hye.fasta;/output/out2;/output/sl;diann.exe;0.01;Trypsin;1;200;800;1100;1800;;;;;;;;genes(species-specific);full;;yes;;
+B;5;hye.fasta;/output/out2;/output/sl;diann.exe;0.01;Trypsin;1;200;800;1100;1800;;;;;;;;genes(species-specific);full;;yes;;
+;;;;;;;;;;;;;;;;;;;;;full;;;;
